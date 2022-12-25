@@ -1,0 +1,26 @@
+Highlighted changes and suggestions include:
+    Arranging dependencies correctly.(done)
+        supertest, jasmine, @types packages and jasmine-spec-reporter must be a part of devDependencies.
+        Ideally you should only have express and sharp as dependencies and rest as devDependencies.
+        It is very important to keep dependencies separate from devDependencies.
+        DevDependencies are used when you only need the packages for development.
+        They are not used in testing like jasmine, supertest etc.
+        In fact, you would not even need type definition support for any package since the production code would be build code that is written in javascript.
+    Separating out image processing function.(i have created processing.ts to use sharp funcs)
+        Image processing is not done in a separate module.
+        Separating functionality is important to keep the code modular.
+        It helps to debug the code in a much better way when you know where to look exactly for a particular function.
+    Including test specs for image processing.
+        Test specs for image processing are missing.
+        By image processing, the rubric is trying to convey that you need to directly import the function and perform testing.
+        A test spec for image processing would look like
+        expect(async () => {
+                await transform(testFilePath, testWidth, testHeight, testThumbPath);
+            }).not.toThrow();
+        where transform is the function where image processing is performed.
+        (i have added this:
+        expect(async () => {await processing.resizeFunc(requestData.filename,'.jpg', Number(requestData.width), 
+        Number(requestData.height),imageNameThumb);}).toBeTruthy();)
+    Defining return type and including type parameters for functions and callbacks.
+        use this images.get('/', (req: Request, res: Response): void 
+        instead of images.get('/', (req, res) 
